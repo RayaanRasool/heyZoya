@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HeyZoya — Your smart AI voice agent for real businesses</title>
+  <meta name="description" content="HeyZoya — AI voice agents: 24/7 answering, lead qualification, booking, integrations with n8n/Make.com/Google Sheets/CRMs." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#05060a;
+      --bg2:#0f1724;
+      --glass: rgba(255,255,255,0.04);
+      --muted: #9aa8bd;
+      --accent1: #f2b9b8; /* pink */
+      --accent2: #f7d9a1; /* gold */
+      --accent-glow: 0 12px 40px rgba(247,217,161,0.08), 0 6px 18px rgba(242,185,184,0.06);
+      --card-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      --glass-border: rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,Segoe UI,Roboto,Arial;
+      color:#eaf2ff;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(242,185,184,0.06), transparent 6%),
+                  radial-gradient(900px 450px at 90% 85%, rgba(247,217,161,0.04), transparent 6%),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* subtle animated background particles */
+    .bg-particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.75}
+    .particle{position:absolute;border-radius:50%;filter:blur(22px);opacity:0.09;animation:float 12s linear infinite}
+    .p1{width:340px;height:340px;background:linear-gradient(90deg,var(--accent1),var(--accent2));left:-100px;top:30px}
+    .p2{width:260px;height:260px;background:linear-gradient(90deg,rgba(124,58,237,0.18),rgba(6,182,212,0.12));right:-80px;bottom:40px;animation-duration:16s}
+    .p3{width:160px;height:160px;background:linear-gradient(90deg,var(--accent2),var(--accent1));left:40%;top:10%;animation-duration:14s}
+    @keyframes float{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.02)}100%{transform:translateY(0) scale(1)}}
+
+    /* layout */
+    .wrap{position:relative;z-index:2;max-width:1150px;margin:36px auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand img{width:72px;height:72px;object-fit:cover;border-radius:14px;box-shadow:var(--accent-glow);border:1px solid rgba(255,255,255,0.04)}
+    .brand h1{font-size:22px;margin:0;color:#fff;letter-spacing:0.2px}
+    .tag{color:var(--muted);font-size:13px;margin-top:4px}
+
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;margin-top:20px;align-items:start}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:28px;box-shadow:var(--card-shadow);border:1px solid var(--glass-border);backdrop-filter:blur(6px)}
+    .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--accent2);font-weight:600;margin-bottom:12px;font-size:13px}
+    h2{font-size:30px;margin:8px 0 6px;line-height:1.05;text-shadow:0 6px 30px rgba(0,0,0,0.45)}
+    p.lead{color:var(--muted);margin:0 0 18px;font-size:15px}
+
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:700;
+      box-shadow:0 8px 30px rgba(2,6,23,0.6);
+    }
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#141217;
+      text-shadow:none;
+      box-shadow:var(--accent-glow);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .btn-primary:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(247,217,161,0.14)}
+    .btn-ghost{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:10px 16px;font-weight:600;border-radius:12px;
+      transition:all .15s ease;
+    }
+    .btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,0.12);transform:translateY(-3px)}
+
+    /* floating logo */
+    .logo-wrap{display:flex;align-items:center;justify-content:center}
+    .logo-float{width:240px;height:240px;border-radius:24px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--card-shadow);animation:float 6s ease-in-out infinite}
+    .logo-float img{width:72%;filter:drop-shadow(0 12px 40px rgba(242,185,184,0.12));}
+
+    /* features */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+    .feature{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 6px 18px rgba(2,6,23,0.6);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .feature:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(8,12,30,0.6)}
+    .feature h4{margin:0 0 8px;font-size:16px}
+    .feature p{margin:0;color:var(--muted);font-size:14px}
+
+    /* integrations */
+    .integrations{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .chip{background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:600;font-size:13px}
+
+    /* aside demo form */
+    aside .card{padding:20px}
+    form{display:flex;flex-direction:column;gap:10px}
+    input,select,textarea{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:12px;border-radius:10px;color:#fff;outline:none}
+    input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.36)}
+    textarea{min-height:100px;resize:vertical}
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+
+    /* how it works */
+    .how{display:flex;gap:12px;margin-top:22px;align-items:stretch}
+    .step{flex:1;padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
+    .step strong{display:block;font-size:16px;margin-bottom:6px}
+
+    /* demo video placeholder */
+    .video-placeholder{height:220px;border-radius:12px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,0.04);color:var(--muted);font-weight:600}
+
+    /* pricing & footer */
+    .pricing{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .price-card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
+
+    footer{margin-top:40px;text-align:center;color:var(--muted);font-size:13px;padding-bottom:40px}
+
+    /* responsive */
+    @media(max-width:1000px){
+      .hero{grid-template-columns:1fr;gap:18px}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .logo-float{width:200px;height:200px}
+    }
+    @media(max-width:640px){
+      .features{grid-template-columns:1fr}
+      .brand h1{font-size:18px}
+      .logo-float{width:160px;height:160px}
+      .kicker{padding:5px 8px}
+      .btn{font-size:14px;padding:10px 14px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- animated particles -->
+  <div class="bg-particles" aria-hidden="true">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="heyzoya.png" alt="HeyZoya logo">
+        <div>
+          <h1>HeyZoya</h1>
+          <div class="tag">Your smart AI voice agent for real businesses</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="text-align:right;color:var(--muted);font-size:13px">Demo-ready MVP</div>
+      </div>
+    </header>
+
+    <main class="hero">
+      <!-- left: content -->
+      <section>
+        <div class="hero-card">
+          <span class="kicker">A product of Machine Minds</span>
+          <h2>Convert callers into booked clients — 24/7</h2>
+          <p class="lead">HeyZoya answers calls in a natural voice, qualifies leads, books appointments, and pushes data into your workflows (n8n, Make.com, Google Sheets, CRMs). Built to convert and keep your team focused on closing.</p>
+
+          <div style="display:flex;gap:16px;align-items:center;justify-content:flex-start">
+            <button class="btn btn-primary" id="demoBtn">Request a Free Demo</button>
+            <button class="btn btn-ghost" id="playVoice">Play Demo Voice</button>
+          </div>
+
+          <div class="how" style="margin-top:18px">
+            <div class="step">
+              <strong>How it works</strong>
+              <div style="color:var(--muted)">Calls hit HeyZoya → natural conversation qualifies the lead → data stored & alerts sent → appointment scheduled or human follow-up.</div>
+            </div>
+            <div class="step">
+              <strong>Deploy in days</strong>
+              <div style="color:var(--muted)">Phone system integration, webhook & CRM sync, and configurable voice personalities.</div>
+            </div>
+          </div>
+
+          <div class="features" aria-hidden="false" style="margin-top:20px">
+            <div class="feature">
+              <h4>24/7 Human-like Answering</h4>
+              <p>Natural TTS voices (multi-language), conversation continuity, and fallback to human agents.</p>
+            </div>
+            <div class="feature">
+              <h4>Lead Qualification</h4>
+              <p>Context-aware questioning, scoring, and capture of name, needs, budget, and intent.</p>
+            </div>
+            <div class="feature">
+              <h4>Bookings & Reminders</h4>
+              <p>Calendar sync, automatic reminders via SMS/Email, and rescheduling flows.</p>
+            </div>
+            <div class="feature">
+              <h4>Integrations</h4>
+              <p>n8n, Make.com, Zapier, Google Sheets, HubSpot, Salesforce, WhatsApp, Twilio, Slack.</p>
+            </div>
+            <div class="feature">
+              <h4>Analytics & Recordings</h4>
+              <p>Call logs, transcript search, conversion metrics, and agent handoff data.</p>
+            </div>
+            <div class="feature">
+              <h4>Custom Personality</h4>
+              <p>Tune voice, tone, and routing logic for industries like real estate, HVAC, clinics, & law.</p>
+            </div>
+          </div>
+
+          <div style="margin-top:18px">
+            <div class="integrations">
+              <div class="chip">n8n</div>
+              <div class="chip">Make.com</div>
+              <div class="chip">Google Sheets</div>
+              <div class="chip">Zapier</div>
+              <div class="chip">Twilio</div>
+              <div class="chip">HubSpot</div>
+              <div class="chip">Salesforce</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- How demo video fits -->
+        <div style="margin-top:18px" class="hero-card">
+          <h3 style="margin:0 0 8px">Watch demo (placeholder)</h3>
+          <div class="video-placeholder">
+            Demo video spot — embed your YouTube/Vimeo here later
+          </div>
+          <div class="note" style="margin-top:12px">Tip: Upload a short 60–90s demo and replace this placeholder with an embedded iframe.</div>
+        </div>
+
+        <!-- Pricing snippet -->
+        <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+          <div class="price-card">
+            <strong>14-day Trial</strong>
+            <div style="color:var(--muted);margin-top:6px">Risk-free trial with starter minutes and demo setup.</div>
+          </div>
+          <div class="price-card">
+            <strong>From $1 / minute</strong>
+            <div style="color:var(--muted);margin-top:6px">Pay-as-you-go or monthly subscriptions for teams.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- right: logo + form aside -->
+      <aside>
+        <div class="logo-wrap" style="margin-bottom:18px">
+          <div class="logo-float">
+            <img src="heyzoya.png" alt="HeyZoya">
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <h3 style="margin:0 0 6px">Request a Live Demo</h3>
+          <div class="note">We’ll contact you to schedule a 10–15 minute live walkthrough.</div>
+
+          <form id="demoForm" style="margin-top:12px">
+            <input id="name" type="text" placeholder="Your name" required>
+            <input id="company" type="text" placeholder="Company (optional)">
+            <input id="email" type="email" placeholder="Email" required>
+            <input id="phone" type="tel" placeholder="Phone (optional)">
+            <select id="industry">
+              <option value="">Industry (optional)</option>
+              <option>Real Estate</option>
+              <option>HVAC</option>
+              <option>Legal</option>
+              <option>Healthcare</option>
+              <option>Automotive</option>
+              <option>Other</option>
+            </select>
+            <textarea id="message" placeholder="What would you like HeyZoya to handle? (optional)"></textarea>
+
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <button type="submit" class="btn btn-primary">Request Demo</button>
+              <button type="button" id="downloadBtn" class="btn btn-ghost">Download JSON</button>
+            </div>
+            <div id="formMsg" class="note" style="margin-top:8px;color:var(--muted)"></div>
+          </form>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="hero-card" style="text-align:center">
+          <h4 style="margin-bottom:6px">Quick Voice Tryout</h4>
+          <div class="note">Hear HeyZoya interact with a short simulated call using your browser.</div>
+          <div style="margin-top:12px">
+            <button class="btn btn-ghost" id="playScenario">Play Call Scenario</button>
+          </div>
+        </div>
+
+      </aside>
+    </main>
+
+    <footer>
+      <div>© HeyZoya — A product of Machine Minds</div>
+    </footer>
+  </div>
+
+  <script>
+    // Voice demo: Web Speech API
+    function speak(text, opts = {}) {
+      if (!('speechSynthesis' in window)) { alert('Speech Synthesis not supported in this browser'); return; }
+      const u = new SpeechSynthesisUtterance(text);
+      const voices = speechSynthesis.getVoices();
+      // choose a clear English voice if possible
+      if (voices && voices.length) {
+        u.voice = voices.find(v => /en(-|_)?/i.test(v.lang)) || voices[0];
+      }
+      u.rate = opts.rate || 1;
+      u.pitch = opts.pitch || 1;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+    }
+
+    document.getElementById('playVoice').addEventListener('click', () => {
+      speak('Hello — this is HeyZoya. I can handle calls, qualify leads, and book appointments for your business. Would you like a free demo?');
+    });
+
+    document.getElementById('playScenario').addEventListener('click', () => {
+      const lines = [
+        'HeyZoya: Hello, thank you for calling. May I have your name please?',
+        'Caller: Hi, I am Jamie. I need a consultation about my property.',
+        'HeyZoya: Thank you Jamie. What service are you interested in?',
+        'Caller: A home valuation and agent visit.',
+        'HeyZoya: I can book that. We have available slots tomorrow at 10 AM or 3 PM. Which do you prefer?',
+        'Caller: 10 AM please.',
+        'HeyZoya: Perfect. Your appointment is scheduled for 10 AM tomorrow. You will receive a confirmation text. Goodbye!'
+      ];
+      let i = 0;
+      function next() {
+        if (i >= lines.length) return;
+        speak(lines[i], { rate: 1, pitch: 1 });
+        i++;
+        setTimeout(next, 1600);
+      }
+      next();
+    });
+
+    // Form handling: save to localStorage, open mailto as fallback, allow download
+    const form = document.getElementById('demoForm');
+    const msg = document.getElementById('formMsg');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        company: document.getElementById('company').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        industry: document.getElementById('industry').value,
+        message: document.getElementById('message').value.trim(),
+        ts: new Date().toISOString()
+      };
+      // Save locally
+      const existing = JSON.parse(localStorage.getItem('heyzoya_submissions') || '[]');
+      existing.push(data);
+      localStorage.setItem('heyzoya_submissions', JSON.stringify(existing));
+
+      // Open mail client as fallback (replace email before publishing)
+      const subject = encodeURIComponent('HeyZoya Demo Request — ' + data.name);
+      const body = encodeURIComponent(
+        `Name: ${data.name}\nCompany: ${data.company}\nEmail: ${data.email}\nPhone: ${data.phone}\nIndustry: ${data.industry}\nMessage: ${data.message}\nTimestamp: ${data.ts}`
+      );
+      // NOTE: Replace hello@heyzoya.example with your real email when ready
+      window.location.href = `mailto:hello@heyzoya.example?subject=${subject}&body=${body}`;
+      msg.textContent = `Thanks ${data.name}! Your request was recorded locally and your mail client should open.`;
+    });
+
+    // Download last submission
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const arr = JSON.parse(localStorage.getItem('heyzoya_submissions') || '[]');
+      if (!arr.length) { alert('No submissions saved yet. Submit the demo form first.'); return; }
+      const latest = arr[arr.length - 1];
+      const blob = new Blob([JSON.stringify(latest, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'heyzoya-demo-submission.json';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // Scroll to form quickly
+    document.getElementById('demoBtn').addEventListener('click', () => {
+      document.getElementById('name').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById('name').focus();
+    });
+
+    // load voices in some browsers
+    if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = function() { /* trigger load */ };
+    }
+  </script>
+</body>
+</html>
