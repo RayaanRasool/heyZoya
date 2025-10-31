@@ -228,10 +228,10 @@
           </div>
           <div class="note" style="margin-top:12px">Tip: Upload a short 60–90s demo and replace this placeholder with an embedded iframe.</div>
         </div> -->
+<!-- 
+        Demo video -->
 
-        <!-- Demo video -->
-
-        <div style="margin-top:18px" class="hero-card">
+        <!-- <div style="margin-top:18px" class="hero-card">
   <h3 style="margin:0 0 8px">Watch demo</h3>
   <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
     <!-- <iframe
@@ -247,6 +247,25 @@
   src="https://www.youtube.com/embed/d8krUanSzsk"
   allowfullscreen>
 </iframe>
+ -->
+
+  <!-- Demo video -->
+<div style="margin-top:18px" class="hero-card">
+  <h3 style="margin:0 0 8px">Watch demo</h3>
+  <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
+    <video
+      style="position:absolute; top:0; left:0; width:100%; height:100%; border:none; border-radius:12px;"
+      controls
+      autoplay
+      muted
+    >
+      <source src="demoVideo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+        
 
   </div>
   <div class="note" style="margin-top:12px">
@@ -325,19 +344,19 @@
 
   <script>
     // Voice demo: Web Speech API
-    // function speak(text, opts = {}) {
-    //   if (!('speechSynthesis' in window)) { alert('Speech Synthesis not supported in this browser'); return; }
-    //   const u = new SpeechSynthesisUtterance(text);
-    //   const voices = speechSynthesis.getVoices();
-    //   // choose a clear English voice if possible
-    //   if (voices && voices.length) {
-    //     u.voice = voices.find(v => /en(-|_)?/i.test(v.lang)) || voices[0];
-    //   }
-    //   u.rate = opts.rate || 1;
-    //   u.pitch = opts.pitch || 1;
-    //   speechSynthesis.cancel();
-    //   speechSynthesis.speak(u);
-    // }
+    function speak(text, opts = {}) {
+      if (!('speechSynthesis' in window)) { alert('Speech Synthesis not supported in this browser'); return; }
+      const u = new SpeechSynthesisUtterance(text);
+      const voices = speechSynthesis.getVoices();
+      // choose a clear English voice if possible
+      if (voices && voices.length) {
+        u.voice = voices.find(v => /en(-|_)?/i.test(v.lang)) || voices[0];
+      }
+      u.rate = opts.rate || 1;
+      u.pitch = opts.pitch || 1;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+    }
 
     document.getElementById('playVoice').addEventListener('click', () => {
       speak('Hello — this is HeyZoya. I can handle calls, qualify leads, and book appointments for your business. Would you like a free demo?');
@@ -416,6 +435,7 @@
   </script>
 </body>
 </html>
+
 
 
 
