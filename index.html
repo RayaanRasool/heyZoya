@@ -109,7 +109,20 @@
     .step strong{display:block;font-size:16px;margin-bottom:6px}
 
     /* demo video placeholder */
-    .video-placeholder{height:220px;border-radius:12px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,0.04);color:var(--muted);font-weight:600}
+    /* .video-placeholder{height:220px;border-radius:12px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,0.04);color:var(--muted);font-weight:600} */
+    /* demo video placeholder */
+.video-placeholder {
+  height:220px;
+  border-radius:12px;
+  background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px dashed rgba(255,255,255,0.04);
+  color:var(--muted);
+  font-weight:600;
+}
+
 
     /* pricing & footer */
     .pricing{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
@@ -249,7 +262,7 @@
 </iframe>
  -->
 
-  <!-- Demo video -->
+  <!-- Demo video 
 <div style="margin-top:18px" class="hero-card">
   <h3 style="margin:0 0 8px">Watch demo</h3>
   <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
@@ -263,9 +276,24 @@
       <!-- Your browser does not support the video tag. -->
     </video>
   </div>
+</div> -->
+
+        <!-- Demo video -->
+<div style="margin-top:18px" class="hero-card">
+  <h3 style="margin:0 0 8px">Watch demo</h3>
+  <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
+    <video
+      style="position:absolute; top:0; left:0; width:100%; height:100%; border:none; border-radius:12px;"
+      controls
+      muted
+      autoplay
+    >
+      <source src="demoVideo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 </div>
 
-        
 
   </div>
   <div class="note" style="margin-top:12px">
@@ -435,6 +463,7 @@
   </script>
 </body>
 </html>
+
 
 
 
